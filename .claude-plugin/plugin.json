@@ -1,0 +1,12 @@
+{
+  "name": "sendify",
+  "description": "Internal Claude Code plugin for Sendify employees - Go and TypeScript development",
+  "version": "1.0.0",
+  "author": {
+    "name": "Holger Tidemand"
+  },
+  "keywords": ["logistics", "shipping", "go", "typescript", "react"],
+  "agents": "./agents/",
+  "lspServers": "./.lsp.json",
+  "mcpServers": "./.mcp.json"
+}

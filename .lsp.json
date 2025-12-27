@@ -1,0 +1,12 @@
+{
+  "gopls": {
+    "command": ["gopls", "serve"],
+    "filetypes": ["go", "gomod", "gowork", "gotmpl"],
+    "rootMarkers": ["go.mod", "go.work", ".git"]
+  },
+  "typescript-language-server": {
+    "command": ["typescript-language-server", "--stdio"],
+    "filetypes": ["typescript", "typescriptreact", "javascript", "javascriptreact"],
+    "rootMarkers": ["tsconfig.json", "jsconfig.json", "package.json", ".git"]
+  }
+}
