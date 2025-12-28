@@ -1,16 +1,16 @@
 ---
-name: work
-description: Execute work plans efficiently while maintaining quality and finishing features
-argument-hint: "[plan file, specification, or todo file path]"
+name: build
+description: Execute blueprints efficiently while maintaining quality and finishing features
+argument-hint: "[blueprint file, specification, or todo file path]"
 ---
 
-# Work Plan Execution Command
+# Build Command
 
-Execute a work plan efficiently while maintaining quality and finishing features.
+Execute a blueprint efficiently while maintaining quality and finishing features.
 
 ## Introduction
 
-This command takes a work document (plan, specification, or todo file) and executes it systematically. The focus is on **shipping complete features** by understanding requirements quickly, following existing patterns, and maintaining quality throughout.
+This command takes a blueprint (or specification/todo file) and executes it systematically. The focus is on **shipping complete features** by understanding requirements quickly, following existing patterns, and maintaining quality throughout.
 
 ## Input Document
 
@@ -20,16 +20,16 @@ This command takes a work document (plan, specification, or todo file) and execu
 
 ### Phase 1: Quick Start
 
-1. **Read Plan and Clarify**
+1. **Read Blueprint and Clarify**
 
-   - Read the work document completely
-   - Review any references or links provided in the plan
+   - Read the blueprint completely
+   - Review any references or links provided in the blueprint
    - If anything is unclear or ambiguous, ask clarifying questions now
    - Get user approval to proceed
    - **Do not skip this** - better to ask questions now than build the wrong thing
 
 2. **Create Todo List**
-   - Use TodoWrite to break plan into actionable tasks
+   - Use TodoWrite to break blueprint into actionable tasks
    - Include dependencies between tasks
    - Prioritize based on what needs to be done first
    - Include testing and quality check tasks
@@ -44,7 +44,7 @@ This command takes a work document (plan, specification, or todo file) and execu
    ```
    while (tasks remain):
      - Mark task as in_progress in TodoWrite
-     - Read any referenced files from the plan
+     - Read any referenced files from the blueprint
      - Look for similar patterns in codebase
      - Implement following existing conventions
      - Write tests for new functionality
@@ -54,7 +54,7 @@ This command takes a work document (plan, specification, or todo file) and execu
 
 2. **Follow Existing Patterns**
 
-   - The plan should reference similar code - read those files first
+   - The blueprint should reference similar code - read those files first
    - Match naming conventions exactly
    - Reuse existing components where possible
    - Follow project coding standards (see CLAUDE.md)
@@ -130,9 +130,9 @@ This command takes a work document (plan, specification, or todo file) and execu
 - Don't wait for perfect understanding - ask questions and move
 - The goal is to **finish the feature**, not create perfect process
 
-### The Plan is Your Guide
+### The Blueprint is Your Guide
 
-- Work documents should reference similar code and patterns
+- Blueprints should reference similar code and patterns
 - Load those references and follow them
 - Don't reinvent - match what exists
 
@@ -179,9 +179,9 @@ For most features: tests + linting + following patterns is sufficient.
 
 ## Common Pitfalls to Avoid
 
-- **Analysis paralysis** - Don't overthink, read the plan and execute
+- **Analysis paralysis** - Don't overthink, read the blueprint and execute
 - **Skipping clarifying questions** - Ask now, not after building wrong thing
-- **Ignoring plan references** - The plan has links for a reason
+- **Ignoring blueprint references** - The blueprint has links for a reason
 - **Testing at the end** - Test continuously or suffer later
 - **Forgetting TodoWrite** - Track progress or lose track of what's done
 - **80% done syndrome** - Finish the feature, don't move on early

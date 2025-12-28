@@ -1,12 +1,12 @@
 ---
-name: plan
+name: blueprint
 description: Create implementation plans for new features
 argument-hint: "[feature description]"
 ---
 
-# Create an Implementation Plan
+# Create an Implementation Blueprint
 
-Transform feature descriptions into actionable implementation plans.
+Transform feature descriptions into actionable implementation blueprints.
 
 ## Feature Description
 
@@ -57,16 +57,16 @@ After research, ask targeted questions:
 - Any specific performance requirements?
 - Integration with existing services/components?
 
-### 3. Generate Plan
+### 3. Generate Blueprint
 
-Use the template below to create an actionable plan.
+Use the template below to create an actionable blueprint.
 
 ---
 
-## Plan Template
+## Blueprint Template
 
 ```markdown
-## Plan: [Feature Title]
+## Blueprint: [Feature Title]
 
 ### Overview
 [What this feature does and why it matters]
@@ -184,36 +184,36 @@ export function useFeature(id: string) {
 
 ## Output
 
-After generating the plan, end with:
+After generating the blueprint, end with:
 
 ```markdown
 ---
 
 ## Next Steps
 
-Plan saved to: `.plan/[feature-name].md`
+Blueprint saved to: `.blueprint/[feature-name].md`
 
-1. Review this plan and provide feedback
+1. Review this blueprint and provide feedback
 2. Ask questions to clarify any section
 3. Request changes (simplify, add detail, adjust scope)
-4. When ready, run `/sendify:work .plan/[feature-name].md` to execute
+4. When ready, run `/sendify:build .blueprint/[feature-name].md` to execute
 ```
 
-## Save Plan to File
+## Save Blueprint to File
 
-After generating the plan and getting user approval:
+After generating the blueprint and getting user approval:
 
-1. **Create `.plan` directory** if it doesn't exist
-2. **Save plan** as `.plan/[feature-name].md` (kebab-case filename)
+1. **Create `.blueprint` directory** if it doesn't exist
+2. **Save blueprint** as `.blueprint/[feature-name].md` (kebab-case filename)
 3. **Check gitignore:**
    - Read `.gitignore` in project root
-   - If `.plan` or `.plan/` is NOT listed, ask the user:
-     > "The `.plan` directory is not in `.gitignore`. Would you like me to add it?"
-   - If user agrees, add `.plan/` to `.gitignore`
+   - If `.blueprint` or `.blueprint/` is NOT listed, ask the user:
+     > "The `.blueprint` directory is not in `.gitignore`. Would you like me to add it?"
+   - If user agrees, add `.blueprint/` to `.gitignore`
 
 **Example:**
 ```
-.plan/
+.blueprint/
 ├── user-authentication.md
 ├── export-metrics.md
 └── dark-mode-toggle.md
@@ -224,4 +224,4 @@ After generating the plan and getting user approval:
 - **Research First:** Always run the 3 research agents before planning
 - **Prefer Standard Library:** Only use external packages when necessary
 - **Be Specific:** Include file paths and code examples
-- **Stay Actionable:** Plans should be immediately implementable
+- **Stay Actionable:** Blueprints should be immediately implementable
