@@ -116,8 +116,6 @@ No issues found. Checked for bugs and CLAUDE.md compliance.
 ## Notes
 
 - Create a todo list before starting
-- For Go files, the go-review agent should be used
-- For TypeScript files, the ts-review agent should be used
 - For simplicity the code-simplicity-reviewer agent should be used
 - For Power of Ten review the power-of-ten-reviewer agent should be used
 - Cite CLAUDE.md rules when flagging violations

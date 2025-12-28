@@ -40,14 +40,7 @@ Multi-agent code review workflow:
 /sendify:code-review src/api/handler.go # Review specific files
 ```
 
-Uses 4 parallel agents to check for bugs, security issues, and CLAUDE.md compliance. Includes validation step to filter false positives.
-
-### Review Agents
-
-Language-specific code review agents that Claude invokes automatically:
-
-- **go-review** - Reviews Go code with Power of Ten safety rules
-- **ts-review** - Reviews TypeScript/React code with Power of Ten safety rules
+Uses 5 parallel agents to check for bugs, security issues, simplicity, Power of Ten compliance, and CLAUDE.md compliance. Includes validation step to filter false positives.
 
 ### Safety Skills
 

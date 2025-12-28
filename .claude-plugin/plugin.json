@@ -6,7 +6,7 @@
     "name": "Holger Tidemand"
   },
   "keywords": ["logistics", "shipping", "go", "typescript", "react"],
-  "agents": ["./agents/go-review.md", "./agents/ts-review.md"],
+  "agents": ["./agents/code-simplicity-reviewer.md", "./agents/power-of-ten-reviewer.md"],
   "lspServers": "./.lsp.json",
   "mcpServers": "./.mcp.json"
 }
