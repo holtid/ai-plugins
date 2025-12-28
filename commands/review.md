@@ -1,4 +1,5 @@
 ---
+name: review
 description: Multi-agent code review for staged or specified files
 ---
 
@@ -8,12 +9,12 @@ Provide a thorough code review using multiple specialized agents.
 
 Review staged changes:
 ```
-/code-review
+/review
 ```
 
 Review specific files:
 ```
-/code-review src/api/handler.go src/api/handler_test.go
+/review src/api/handler.go src/api/handler_test.go
 ```
 
 ## Process
