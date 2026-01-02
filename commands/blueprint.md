@@ -4,6 +4,8 @@ description: Create implementation plans for new features
 argument-hint: "[feature description]"
 ---
 
+ultrathink
+
 # Create an Implementation Blueprint
 
 Transform feature descriptions into actionable implementation blueprints.
@@ -30,6 +32,9 @@ Launch these agents in parallel to gather context:
 - Identify naming patterns and file structure
 - Note test locations and patterns
 - Note internal packages that can be used
+- **Check for missing CLAUDE.md files** in packages being investigated
+  - Report which packages have CLAUDE.md and which are missing
+  - List the paths of packages without CLAUDE.md
 
 **Agent 2: Best Practices Researcher (opus)**
 - Search online for best practices in this domain
@@ -44,7 +49,36 @@ Launch these agents in parallel to gather context:
 - For TypeScript: Check native APIs, built-in types, standard DOM APIs
 - Only recommend external packages if standard library is insufficient
 
-### 2. Clarifying Questions
+### 2. Check for Missing CLAUDE.md Files
+
+**If the Codebase Explorer found packages without CLAUDE.md files:**
+
+Stop the blueprint process and inform the user:
+
+```markdown
+## ⚠️ Missing CLAUDE.md Files Detected
+
+The following packages are missing CLAUDE.md files, which provide critical context for creating accurate blueprints:
+
+**Missing in:**
+- `[package-path-1]`
+- `[package-path-2]`
+
+**Recommendation:**
+1. Navigate to each package directory
+2. Run `/init` to generate CLAUDE.md with project conventions
+3. Return here and run `/sendify:blueprint` again
+
+This ensures the blueprint follows your codebase's actual patterns and conventions.
+
+Would you like to proceed anyway (not recommended), or initialize the missing packages first?
+```
+
+**If the user chooses to proceed anyway:** Continue with a warning that the blueprint may not fully align with existing codebase patterns.
+
+**If all relevant packages have CLAUDE.md:** Continue to step 3.
+
+### 3. Clarifying Questions
 
 After research, ask targeted questions:
 
@@ -57,7 +91,7 @@ After research, ask targeted questions:
 - Any specific performance requirements?
 - Integration with existing services/components?
 
-### 3. Generate Blueprint
+### 4. Generate Blueprint
 
 Use the template below to create an actionable blueprint.
 
