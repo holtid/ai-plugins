@@ -79,6 +79,17 @@ Browser automation via `@playwright/mcp`:
 - Take screenshots and accessibility snapshots
 - No vision models needed
 
+## Optional: GitLab CLI
+
+The `/sendify:build` command can create GitLab Merge Requests automatically. This requires the GitLab CLI:
+
+```bash
+brew install glab
+glab auth login
+```
+
+Follow the prompts to authenticate with your GitLab instance.
+
 ## LSP Configuration
 
 Language servers configured in `.lsp.json`:

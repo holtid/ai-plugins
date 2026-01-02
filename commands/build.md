@@ -114,11 +114,34 @@ This command takes a blueprint (or specification/todo file) and executes it syst
 
 ### Phase 4: Complete
 
-1. **Notify User**
+1. **Commit Changes**
+   - Stage all relevant changes
+   - Create a commit with a clear message summarizing what was built
+   - Follow the repository's commit message conventions
+
+2. **Notify User**
    - Summarize what was completed
    - List any files created or modified
    - Note any follow-up work needed
-   - Suggest next steps if applicable
+
+3. **Offer to Create Merge Request** (Optional)
+
+   Ask the user: "Would you like me to create a GitLab Merge Request?"
+
+   If yes and `glab` is available:
+   ```bash
+   # Push branch to remote
+   git push -u origin HEAD
+
+   # Create MR using GitLab CLI
+   glab mr create --fill --web
+   ```
+
+   The `--fill` flag auto-fills title and description from commit messages.
+   The `--web` flag opens the MR in the browser for final review.
+
+   If `glab` is not installed, inform the user:
+   > "GitLab CLI (`glab`) is not installed. Install it with `brew install glab` and authenticate with `glab auth login`."
 
 ---
 
