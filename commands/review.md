@@ -63,7 +63,13 @@ Follow these steps precisely:
 
 6. **Filter**: Remove any issues not validated in step 5.
 
-7. **Report**: Output the final review:
+7. **Check for Merge Request**: Before outputting the report, check if there's an MR for the current branch:
+   ```bash
+   glab mr view 2>/dev/null
+   ```
+   If an MR exists, note the MR number for step 9.
+
+8. **Report**: Output the final review:
 
 ---
 
@@ -103,6 +109,25 @@ If no issues found:
 Brief summary of what changed
 
 No issues found. Checked for bugs and CLAUDE.md compliance.
+
+---
+
+9. **Post to Merge Request** (Optional): If an MR was found in step 7, ask the user:
+
+   > "Found MR !{number}. Would you like me to post this review as an MR comment?"
+
+   If yes:
+   ```bash
+   glab mr note {mr_number} -m "## Code Review
+
+   {formatted review content}
+
+   ---
+   *Automated review by Claude Code*"
+   ```
+
+   Note: Inline diff comments on specific lines are not yet supported by the GitLab CLI.
+   If `glab` is not installed, inform the user to install it with `brew install glab`.
 
 ---
 
