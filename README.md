@@ -13,6 +13,16 @@ In Claude Code, run:
 
 That's it. The plugin is now available in all your projects.
 
+### Updating
+
+To update to the latest version:
+
+```
+/plugin marketplace remove sendify-claude-plugin
+/plugin marketplace add holgersendify/sendify-claude-plugin
+/plugin install sendify@sendify-claude-plugin
+```
+
 ### How it works
 
 There's no central plugin registry. The GitHub repo path **is** the marketplace. When you run the commands above, Claude Code:
