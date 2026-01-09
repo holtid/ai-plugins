@@ -28,13 +28,13 @@ Launch these agents in parallel to gather context:
 
 **Agent 1: Codebase Explorer (opus)**
 - Find similar implementations in the codebase
-- Read CLAUDE.md for project conventions
+- Read CLAUDE.md / AGENTS.md  for project conventions
 - Identify naming patterns and file structure
 - Note test locations and patterns
 - Note internal packages that can be used
-- **Check for missing CLAUDE.md files** in packages being investigated
-  - Report which packages have CLAUDE.md and which are missing
-  - List the paths of packages without CLAUDE.md
+- **Check for missing CLAUDE.md / AGENTS.md files** in packages being investigated
+  - Report which packages have CLAUDE.md / AGENTS.md and which are missing
+  - List the paths of packages without CLAUDE.md / AGENTS.md
 
 **Agent 2: Best Practices Researcher (opus)**
 - Search online for best practices in this domain
@@ -49,16 +49,16 @@ Launch these agents in parallel to gather context:
 - For TypeScript: Check native APIs, built-in types, standard DOM APIs
 - Only recommend external packages if standard library is insufficient
 
-### 2. Check for Missing CLAUDE.md Files
+### 2. Check for Missing CLAUDE.md / AGENTS.md Files
 
-**If the Codebase Explorer found packages without CLAUDE.md files:**
+**If the Codebase Explorer found packages without CLAUDE.md / AGENTS.md files:**
 
 Stop the blueprint process and inform the user:
 
 ```markdown
-## ⚠️ Missing CLAUDE.md Files Detected
+## ⚠️ Missing CLAUDE.md / AGENTS.md Files Detected
 
-The following packages are missing CLAUDE.md files, which provide critical context for creating accurate blueprints:
+The following packages are missing CLAUDE.md / AGENTS.md files, which provide critical context for creating accurate blueprints:
 
 **Missing in:**
 - `[package-path-1]`
@@ -66,7 +66,7 @@ The following packages are missing CLAUDE.md files, which provide critical conte
 
 **Recommendation:**
 1. Navigate to each package directory
-2. Run `/init` to generate CLAUDE.md with project conventions
+2. Run `/init` to generate CLAUDE.md / AGENTS.md with project conventions
 3. Return here and run `/sendify:blueprint` again
 
 This ensures the blueprint follows your codebase's actual patterns and conventions.
@@ -76,7 +76,7 @@ Would you like to proceed anyway (not recommended), or initialize the missing pa
 
 **If the user chooses to proceed anyway:** Continue with a warning that the blueprint may not fully align with existing codebase patterns.
 
-**If all relevant packages have CLAUDE.md:** Continue to step 3.
+**If all relevant packages have CLAUDE.md / AGENTS.md:** Continue to step 3.
 
 ### 3. Clarifying Questions
 

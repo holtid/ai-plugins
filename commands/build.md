@@ -57,7 +57,7 @@ This command takes a blueprint (or specification/todo file) and executes it syst
    - The blueprint should reference similar code - read those files first
    - Match naming conventions exactly
    - Reuse existing components where possible
-   - Follow project coding standards (see CLAUDE.md)
+   - Follow project coding standards (see CLAUDE.md / AGENTS.md)
    - When in doubt, grep for similar implementations
 
 3. **Test Continuously**
@@ -86,7 +86,7 @@ This command takes a blueprint (or specification/todo file) and executes it syst
    # TypeScript frontend
    yarn test
 
-   # Linting (per CLAUDE.md)
+   # Linting (per CLAUDE.md / AGENTS.md) 
    ```
 
 2. **Consider Reviewer Agent** (Optional)
@@ -185,7 +185,7 @@ Before marking implementation complete:
 - [ ] All clarifying questions asked and answered
 - [ ] All TodoWrite tasks marked completed
 - [ ] Tests pass (`go test ./...` and/or `yarn test`)
-- [ ] Linting passes (per CLAUDE.md)
+- [ ] Linting passes (per CLAUDE.md / AGENTS.md)
 - [ ] Code follows existing patterns
 
 ## When to Use Reviewer Agents

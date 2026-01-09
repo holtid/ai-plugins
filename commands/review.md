@@ -23,16 +23,16 @@ Follow these steps precisely:
 
 1. **Determine scope**: If `$ARGUMENTS` contains file paths, review those files. Otherwise, get staged changes with `git diff --cached --name-only`. If no staged changes, ask the user what to review.
 
-2. **Gather context**: Launch a haiku agent to find relevant CLAUDE.md files:
-   - The root CLAUDE.md file, if it exists
-   - Any CLAUDE.md files in directories containing files being reviewed
+2. **Gather context**: Launch a haiku agent to find relevant CLAUDE.md and AGENTS.md files:
+   - The root CLAUDE.md / AGENTS.md file, if it exists
+   - Any CLAUDE.md / AGENTS.md files in directories containing files being reviewed
 
 3. **Summarize changes**: Launch a sonnet agent to read the files/diff and return a summary of the changes.
 
-4. **Parallel review**: Launch 5 agents in parallel to independently review. Each agent returns a list of issues with description and category (e.g., "CLAUDE.md violation", "bug", "logic error", "simplicity", "power-of-ten").
+4. **Parallel review**: Launch 5 agents in parallel to independently review. Each agent returns a list of issues with description and category (e.g., "CLAUDE.md / AGENTS.md violation", "bug", "logic error", "simplicity", "power-of-ten").
 
-   **Agent 1**: CLAUDE.md compliance (sonnet)
-   Audit changes for CLAUDE.md compliance. Only consider CLAUDE.md files that share a path with the file or its parents.
+   **Agent 1**: CLAUDE.md / AGENTS.md compliance (sonnet)
+   Audit changes for CLAUDE.md / AGENTS.md  compliance. Only consider CLAUDE.md / AGENTS.md files that share a path with the file or its parents.
 
    **Agent 2**: Bug scan (opus)
    Scan for obvious bugs in the diff. Flag only significant bugs; ignore nitpicks and likely false positives.
@@ -48,18 +48,18 @@ Follow these steps precisely:
 
    **CRITICAL: HIGH SIGNAL issues only:**
    - Objective bugs that will cause incorrect behavior at runtime
-   - Clear CLAUDE.md violations where you can quote the exact rule broken
+   - Clear CLAUDE.md / AGENTS.md  violations where you can quote the exact rule broken
    - Security vulnerabilities
 
    **Do NOT flag:**
    - Subjective concerns or suggestions
-   - Style preferences not in CLAUDE.md
+   - Style preferences not in CLAUDE.md / AGENTS.md
    - Potential issues that "might" be problems
    - Anything requiring interpretation
 
    If uncertain, do not flag it.
 
-5. **Validate issues**: For each issue from agents 2, 3, 4 and 5, launch a parallel validation agent. The validator confirms the issue is real with high confidence by checking the actual code. Use opus for bugs, logic/security, simplicity, and power-of-ten issues; sonnet for CLAUDE.md violations.
+5. **Validate issues**: For each issue from agents 2, 3, 4 and 5, launch a parallel validation agent. The validator confirms the issue is real with high confidence by checking the actual code. Use opus for bugs, logic/security, simplicity, and power-of-ten issues; sonnet for CLAUDE.md / AGENTS.md  violations.
 
 6. **Filter**: Remove any issues not validated in step 5.
 
@@ -108,7 +108,7 @@ If no issues found:
 **Summary:**
 Brief summary of what changed
 
-No issues found. Checked for bugs and CLAUDE.md compliance.
+No issues found. Checked for bugs and CLAUDE.md / AGENTS.md compliance.
 
 ---
 
@@ -136,7 +136,7 @@ No issues found. Checked for bugs and CLAUDE.md compliance.
 - Pre-existing issues not introduced in this change
 - Pedantic nitpicks a senior engineer would ignore
 - Issues a linter will catch (do not run the linter)
-- General code quality concerns unless required by CLAUDE.md
+- General code quality concerns unless required by CLAUDE.md / AGENTS.md
 - Issues explicitly silenced in code (lint ignore comments)
 
 ## Notes
@@ -144,4 +144,4 @@ No issues found. Checked for bugs and CLAUDE.md compliance.
 - Create a todo list before starting
 - For simplicity the code-simplicity-reviewer agent should be used
 - For Power of Ten review the power-of-ten-reviewer agent should be used
-- Cite CLAUDE.md rules when flagging violations
+- Cite CLAUDE.md / AGENTS.md rules when flagging violations

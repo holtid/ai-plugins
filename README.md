@@ -50,7 +50,7 @@ Multi-agent code review workflow:
 /sendify:code-review src/api/handler.go # Review specific files
 ```
 
-Uses 5 parallel agents to check for bugs, security issues, simplicity, Power of Ten compliance, and CLAUDE.md compliance. Includes validation step to filter false positives.
+Uses 5 parallel agents to check for bugs, security issues, simplicity, Power of Ten compliance, and CLAUDE.md / AGENTS.md compliance. Includes validation step to filter false positives.
 
 ### Safety Skills
 
