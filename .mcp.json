@@ -11,6 +11,10 @@
     "sendify": {
       "type": "http",
       "url": "https://app.sendify.se/mcp"
+    },
+    "figma": {
+      "type": "http",
+      "url": "https://mcp.figma.com/mcp"
     }
   }
 }
