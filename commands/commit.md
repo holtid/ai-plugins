@@ -13,4 +13,5 @@ description: Create a git commit
 ## Your task
 
 Based on the above changes, create a single git commit. 
-#important Dont sign it with claude code!
+Follow the commit style that is already in use for this repo.
+Dont sign commit messages with claude code!
