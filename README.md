@@ -72,8 +72,9 @@ git pull origin main
 Multi-agent code review workflow:
 
 ```
-/sendify:code-review                    # Review staged changes
-/sendify:code-review src/api/handler.go # Review specific files
+/sendify:review                    # Review all changes vs develop branch
+/sendify:review src/api/handler.go # Review specific files
+/sendify:review HEAD~3             # Review specific commits
 ```
 
 Uses 5 parallel agents to check for bugs, security issues, simplicity, Power of Ten compliance, and CLAUDE.md / AGENTS.md compliance. Includes validation step to filter false positives.
@@ -115,6 +116,15 @@ Browser automation via `@playwright/mcp`:
 - Take screenshots and accessibility snapshots
 - No vision models needed
 
+### Figma
+
+Design system integration via Figma MCP:
+
+- Generate UI code from Figma designs
+- Extract design context and component mappings
+- Create flowcharts and diagrams in FigJam
+- Access design tokens and variables
+
 ## Optional: GitLab CLI
 
 The `/sendify:build` command can create GitLab Merge Requests automatically. This requires the GitLab CLI:
@@ -135,40 +145,4 @@ Language servers configured in `.lsp.json`:
 | gopls | Go | `go install golang.org/x/tools/gopls@latest` |
 | typescript-language-server | TypeScript, JavaScript | `npm install -g typescript-language-server typescript` |
 
-## Contributing
-
-### Development Workflow
-
-1. **Set up development mode** (see Installation > Option 2)
-2. **Make changes** to commands, agents, or skills
-3. **Test immediately** - changes are live after restart
-4. **Commit and push:**
-   ```bash
-   git add .
-   git commit -m "your change description"
-   git push origin main
-   ```
-
-### File Structure
-
-```
-.
-├── commands/          # CLI commands (/sendify:command-name)
-│   ├── review.md     # Multi-agent code review
-│   ├── blueprint.md  # Feature planning
-│   └── build.md      # Blueprint execution
-├── agents/           # Specialized review agents
-│   ├── code-simplicity-reviewer.md
-│   └── power-of-ten-reviewer.md
-└── skills/           # Language-specific implementations
-    ├── power-of-ten-go/
-    └── power-of-ten-ts/
-```
-
-### Guidelines
-
-- Follow patterns in [CLAUDE.md](CLAUDE.md) for code and documentation
-- Keep commands concise and focused
-- Test with `/review` and `/sendify:build` before pushing
-- Update this README if adding new features
 
