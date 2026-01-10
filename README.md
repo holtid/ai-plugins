@@ -43,21 +43,20 @@ Replace `YOUR_USERNAME` with your actual username.
 
 Restart Claude Code. Changes in the repo are now immediately reflected.
 
-### Updating
+### Keeping Up to Date
 
-**Marketplace users:**
-```bash
-/plugin marketplace remove sendify-claude-plugin
-/plugin marketplace add holgersendify/sendify-claude-plugin
-/plugin install sendify@sendify-claude-plugin
-```
+**Marketplace users (recommended):**
 
-**Development mode users:**
-```bash
-cd ~/sendify/sendify-claude-plugin
-git pull origin main
-# Restart Claude Code
-```
+Enable auto-updates so the plugin updates automatically at startup:
+
+1. Run `/plugin` to open the plugin manager
+2. Select **Marketplaces**
+3. Choose `sendify-claude-plugin` from the list
+4. Select **Enable auto-update**
+
+When updates are available, you'll see a notification suggesting you restart Claude Code.
+
+Note: Third-party marketplaces have auto-update disabled by default, so you need to enable it manually.
 
 ## First-Time Setup
 
