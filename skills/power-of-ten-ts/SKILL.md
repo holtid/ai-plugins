@@ -1,17 +1,15 @@
 ---
 name: power-of-ten-ts
-description: NASA/JPL Power of Ten rules adapted for TypeScript/React. Use when reviewing TypeScript code.
+description: NASA/JPL Power of Ten rules adapted for TypeScript/React
 ---
 
 # Power of Ten - TypeScript
 
-Adapted from Gerard J. Holzmann's NASA/JPL rules for safety-critical code.
+TypeScript-specific implementation guidance for NASA/JPL's safety-critical code rules. See `power-of-ten-reviewer` for core principles.
 
 ## 1. Simple Control Flow
 
-**Rule**: No `eval()` or dynamic code execution. No direct or indirect recursion without depth limits.
-
-**Rationale**: Simple control flow enables verification and improves clarity. Without recursion, the call graph is acyclic - all executions can be proven bounded.
+Avoid `eval()`, dynamic code execution, and unbounded recursion. Use depth limits when recursion is necessary.
 
 **TypeScript**:
 ```typescript
@@ -33,9 +31,7 @@ Avoid deeply nested callbacks - use async/await. Keep promise chains flat.
 
 ## 2. Bounded Loops
 
-**Rule**: All loops must have a fixed, provable upper bound.
-
-**Rationale**: Combined with no recursion, this prevents runaway code. When traversing dynamic data, add explicit upper bounds that trigger errors when exceeded.
+All loops must have fixed, provable upper bounds. Add explicit limits on dynamic operations (data traversal, network requests).
 
 **TypeScript**:
 ```typescript
@@ -68,9 +64,7 @@ try {
 
 ## 3. No Dynamic Allocation After Init
 
-**Rule**: Do not allocate memory in hot paths after initialization.
-
-**Rationale**: Memory allocators have unpredictable behavior. Allocation bugs cause performance issues and memory leaks.
+Avoid allocations in hot paths. Memoize computed values and reuse objects where possible.
 
 **TypeScript**:
 ```typescript
@@ -104,9 +98,7 @@ Watch for memory leaks in closures and event listeners - always clean up in useE
 
 ## 4. Function Length
 
-**Rule**: No function longer than 60 lines (one printed page).
-
-**Rationale**: Each function must be understandable and verifiable as a unit. Long functions indicate poor structure.
+Max ~60 lines per function. Long functions indicate poor structure.
 
 **TypeScript**:
 - Keep components under 500 lines
@@ -116,9 +108,7 @@ Watch for memory leaks in closures and event listeners - always clean up in useE
 
 ## 5. Assertion Density
 
-**Rule**: Minimum two assertions per function. Assertions must be side-effect free. On failure, throw or return error. Trivial assertions that always pass/fail don't count.
-
-**Rationale**: Defects occur every 10-100 lines. Assertions intercept them. Use for pre/post-conditions, parameter validation, return values, invariants.
+Minimum 2 assertions per function. Validate inputs at trust boundaries and check postconditions.
 
 **TypeScript**:
 ```typescript
@@ -151,9 +141,7 @@ async function processUser(input: unknown): Promise<Result> {
 
 ## 6. Minimal Scope
 
-**Rule**: Declare data at the smallest possible scope.
-
-**Rationale**: Data hiding - if not in scope, it can't be corrupted. Fewer places a value can be assigned means easier fault diagnosis. Prevents variable reuse for incompatible purposes.
+Declare data at smallest possible scope. Prefer `const` and hide state in closures.
 
 **TypeScript**:
 ```typescript
@@ -184,9 +172,7 @@ function createCache() {
 
 ## 7. Check All Returns
 
-**Rule**: Check return value of every function. Validate parameters inside each function.
-
-**Rationale**: The most frequently violated rule. Ignoring returns causes silent failures. Error values must propagate up the call chain.
+Always handle promise rejections and check for undefined/null. Propagate errors up the call chain.
 
 **TypeScript**:
 ```typescript
@@ -219,9 +205,7 @@ console.log(user.name);
 
 ## 8. Type Discipline
 
-**Rule**: (Original: limit preprocessor) No `any`. No type assertions without validation. Use strict mode.
-
-**Rationale**: Type erasure obscures what's actually running. Each `any` or unsafe assertion is a hole in verification.
+No `any` or unsafe type assertions. Use `unknown` with runtime validation. Enable strict mode in tsconfig.
 
 **TypeScript**:
 ```typescript
@@ -249,9 +233,7 @@ Use `strict: true` in tsconfig. Zero `@ts-ignore`.
 
 ## 9. Reference Discipline
 
-**Rule**: Restrict indirection. No more than one level of optional chaining. No hidden nullability.
-
-**Rationale**: Deep references complicate data flow analysis. Each `?.` is a potential null that should be handled explicitly.
+Limit optional chaining to one level. Handle nulls explicitly at boundaries. Prefer immutability.
 
 **TypeScript**:
 ```typescript
@@ -279,9 +261,7 @@ Destructure with defaults at trust boundaries. Prefer immutable patterns.
 
 ## 10. Zero Warnings
 
-**Rule**: Enable all strict checks. Use static analyzers. Zero warnings - rewrite confusing code rather than ignore.
-
-**Rationale**: Modern static analyzers are accurate. If the tool is confused, the code should be clearer.
+Use static analyzers with zero warnings. Fix confusing code, don't ignore errors.
 
 **TypeScript**:
 ```json
@@ -301,4 +281,4 @@ tsc --noEmit
 eslint --max-warnings 0 .
 ```
 
-Zero tolerance. If ESLint complains, fix the code - don't add `// eslint-disable`.
+Never use `// eslint-disable` or `@ts-ignore` - fix the code instead.

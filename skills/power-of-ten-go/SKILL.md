@@ -1,49 +1,86 @@
 ---
 name: power-of-ten-go
-description: NASA/JPL Power of Ten rules adapted for Go. Use when reviewing Go code.
+description: NASA/JPL Power of Ten rules adapted for Go
 ---
 
 # Power of Ten - Go
 
-Adapted from Gerard J. Holzmann's NASA/JPL rules for safety-critical code.
+Go-specific implementation guidance for NASA/JPL's safety-critical code rules. See `power-of-ten-reviewer` for core principles.
 
 ## 1. Simple Control Flow
 
-**Rule**: No `goto`. No direct or indirect recursion.
-
-**Rationale**: Simple control flow enables verification and improves clarity. Without recursion, the call graph is acyclic - tools can prove all executions are bounded. Early returns for errors are fine.
-
-**Go**: Avoid recursive functions. Convert to iteration with explicit bounds. If recursion is unavoidable, add depth limits.
+Avoid `goto` and unbounded recursion. Convert recursive functions to iteration; if necessary, add depth limits. Early returns for errors are fine.
 
 ## 2. Bounded Loops
 
-**Rule**: All loops must have a fixed, provable upper bound.
+All loops must have fixed, provable upper bounds. Add explicit limits on channels, data traversal, and network operations.
 
-**Rationale**: Combined with no recursion, this prevents runaway code. When traversing dynamic data, add explicit upper bounds that trigger errors when exceeded.
-
-**Go**:
+**Go - Channels**:
 ```go
-// Bad: unbounded
-for item := range channel { }
+// Bad: unbounded channel receive
+for item := range channel { }  // Will block forever if no close
 
-// Good: bounded with timeout
-ctx, cancel := context.WithTimeout(ctx, 30*time.Second)
-for { select { case item := <-channel: ... case <-ctx.Done(): return } }
+// Good: use context timeout
+ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
+defer cancel()
+for {
+  select {
+  case item, ok := <-channel:
+    if !ok {
+      return nil  // channel closed
+    }
+    // process item
+  case <-ctx.Done():
+    return fmt.Errorf("timeout: processing took too long")
+  }
+}
 
+// Good: bound by received count
+const maxItems = 10000
+count := 0
+for item := range channel {
+  if count >= maxItems {
+    return fmt.Errorf("exceeded max items: %d", maxItems)
+  }
+  // process item
+  count++
+}
+
+// Good: explicit close signal channel
+done := make(chan struct{})
+for {
+  select {
+  case item, ok := <-channel:
+    if !ok {
+      return nil
+    }
+    // process item
+  case <-done:
+    return nil
+  }
+}
+```
+
+**Go - Data Traversal**:
+```go
 // Bad: unbounded iteration
 for node != nil { node = node.Next }
 
 // Good: explicit bound
-for i := 0; node != nil && i < maxNodes; i++ { node = node.Next }
+const maxNodes = 10000
+for i := 0; node != nil && i < maxNodes; i++ {
+  node = node.Next
+}
+if node != nil {
+  return fmt.Errorf("traversal exceeded %d nodes", maxNodes)
+}
 ```
 
 ## 3. No Dynamic Allocation After Init
 
-**Rule**: Do not allocate memory after initialization.
+Pre-allocate in hot paths. Go has GC, but allocation unpredictability affects latency.
 
-**Rationale**: Memory allocators have unpredictable behavior. Allocation bugs (leaks, use-after-free, overruns) are eliminated by pre-allocating. Stack usage becomes statically provable.
-
-**Go**: Go has GC, but the principle applies to hot paths:
+**Go**:
 - Pre-allocate slices: `make([]T, 0, expectedSize)`
 - Use `sync.Pool` for frequently allocated objects
 - Avoid allocations in tight loops
@@ -51,34 +88,28 @@ for i := 0; node != nil && i < maxNodes; i++ { node = node.Next }
 
 ## 4. Function Length
 
-**Rule**: No function longer than 60 lines (one printed page).
-
-**Rationale**: Each function must be understandable and verifiable as a unit. Long functions indicate poor structure.
-
-**Go**: If a function needs section comments, split it. Each function should do one thing.
+Max ~60 lines per function. If a function needs section comments, split it. Each function should do one thing.
 
 ## 5. Assertion Density
 
-**Rule**: Minimum two assertions per function. Assertions must be side-effect free. On failure, return an error. Trivial assertions that always pass/fail don't count.
+Minimum 2 assertions per function. Validate inputs at boundaries and check postconditions.
 
-**Rationale**: Defects occur every 10-100 lines. Assertions intercept them. Use for pre/post-conditions, parameter validation, return values, loop invariants.
-
-**Go**: Go doesn't have assert, but the pattern applies:
+**Go**:
 ```go
 func Process(data []byte, limit int) error {
-    // Precondition checks (assertions)
+    // Precondition: validate inputs
     if data == nil {
         return errors.New("data cannot be nil")
     }
     if limit <= 0 || limit > MaxLimit {
-        return fmt.Errorf("limit %d out of range [1, %d]", limit, MaxLimit)
+        return fmt.Errorf("limit out of range: %d (must be [1, %d])", limit, MaxLimit)
     }
 
     // ... logic ...
 
-    // Postcondition / invariant check
+    // Postcondition: verify invariants
     if result < 0 {
-        return errors.New("invariant violated: result cannot be negative")
+        return errors.New("invariant violated: result must be non-negative")
     }
     return nil
 }
@@ -86,9 +117,7 @@ func Process(data []byte, limit int) error {
 
 ## 6. Minimal Scope
 
-**Rule**: Declare data at the smallest possible scope.
-
-**Rationale**: Data hiding - if not in scope, it can't be corrupted. Fewer places a value can be assigned means easier fault diagnosis. Prevents variable reuse for incompatible purposes.
+Declare data at smallest possible scope. Avoid package-level mutable state.
 
 **Go**:
 - Declare variables at point of first use
@@ -98,17 +127,15 @@ func Process(data []byte, limit int) error {
 
 ## 7. Check All Returns
 
-**Rule**: Check return value of every non-void function. Validate parameters inside each function.
-
-**Rationale**: The most frequently violated rule. Ignoring returns causes silent failures. Error values must propagate up the call chain.
+Always check error returns. Never use blank identifier for error values.
 
 **Go**:
 ```go
-// Bad
+// Bad: ignoring errors
 result, _ := SomeFunc()
 io.Copy(dst, src)
 
-// Good
+// Good: handle all errors
 result, err := SomeFunc()
 if err != nil {
     return fmt.Errorf("SomeFunc: %w", err)
@@ -118,13 +145,14 @@ n, err := io.Copy(dst, src)
 if err != nil {
     return fmt.Errorf("copy failed: %w", err)
 }
+if n == 0 {
+    return errors.New("no data written")
+}
 ```
 
 ## 8. Limited Code Generation
 
-**Rule**: (Original: limit preprocessor) Limit `go generate` and build tags.
-
-**Rationale**: Code generation obscures what's actually running. Each build tag doubles the test matrix.
+Minimize `go generate` and build tags. Code generation obscures what's running.
 
 **Go**:
 - Minimize `//go:build` tags
@@ -133,14 +161,74 @@ if err != nil {
 
 ## 9. Pointer Discipline
 
-**Rule**: Restrict pointer use. No more than one level of dereferencing. No hidden dereferences. Function pointers (interfaces) require justification.
-
-**Rationale**: Pointers complicate data flow analysis. Function pointers prevent proving absence of recursion.
+Restrict indirection. No `**T` (pointer to pointer). Limit interfaces to deliberate abstractions.
 
 **Go**:
-- Avoid `**T` (pointer to pointer)
+- Avoid `**T` - if needed, document why
 - Be explicit about nil - check at trust boundaries
-- Prefer value receivers unless mutation needed
-- Use interfaces deliberately, not by default
-- Document why interface{}/any is necessary
+- Prefer value receivers unless mutation is necessary
+- Use interfaces deliberately, not as default practice
+- Document when `interface{}`/`any` is necessary
 
+## 10. Zero Warnings
+
+Use linters with zero warnings. Fix confusing code, don't ignore errors.
+
+**Go**:
+```bash
+go vet ./...
+golangci-lint run --no-new-issues .
+staticcheck ./...
+```
+
+Never use `// nolint` or `//lint:ignore` - fix the code instead. Enable strict checks in your CI.
+
+**Channels - Best Practices**:
+```go
+// Bad: unbounded receive without signal
+for item := range channel {
+    process(item)  // What stops this?
+}
+
+// Good: explicit shutdown signal
+done := make(chan struct{})
+for {
+    select {
+    case item, ok := <-channel:
+        if !ok {  // channel closed by sender
+            return nil
+        }
+        process(item)
+    case <-done:
+        return nil
+    }
+}
+
+// Good: context cancellation
+ctx, cancel := context.WithCancel(context.Background())
+defer cancel()
+for {
+    select {
+    case item, ok := <-channel:
+        if !ok {
+            return nil
+        }
+        process(item)
+    case <-ctx.Done():
+        return ctx.Err()
+    }
+}
+
+// Good: always check if channel is open
+func SafeReceive(ch <-chan Item) (Item, error) {
+    select {
+    case item, ok := <-ch:
+        if !ok {
+            return Item{}, errors.New("channel closed")
+        }
+        return item, nil
+    case <-time.After(5 * time.Second):
+        return Item{}, errors.New("timeout")
+    }
+}
+```

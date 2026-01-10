@@ -1,6 +1,6 @@
 ---
 name: blueprint
-description: Create implementation plans for new features
+description: Create implementation plans for features
 argument-hint: "[feature description]"
 ---
 
@@ -8,15 +8,9 @@ ultrathink
 
 # Create an Implementation Blueprint
 
-Transform feature descriptions into actionable implementation blueprints.
+## Blocking Condition
 
-## Feature Description
-
-<feature_description>$ARGUMENTS</feature_description>
-
-**If empty, ask:** "What feature would you like to plan? Describe what you want to build."
-
-Do not proceed until you have a clear feature description.
+If feature description is empty: Ask **"What feature would you like to plan? Describe what you want to build."** and stop. Do not infer or invent a feature.
 
 ---
 
@@ -24,76 +18,25 @@ Do not proceed until you have a clear feature description.
 
 ### 1. Parallel Research
 
-Launch these agents in parallel to gather context:
+Launch 3 agents in parallel:
 
-**Agent 1: Codebase Explorer (opus)**
-- Find similar implementations in the codebase
-- Read CLAUDE.md / AGENTS.md  for project conventions
-- Identify naming patterns and file structure
-- Note test locations and patterns
-- Note internal packages that can be used
-- **Check for missing CLAUDE.md / AGENTS.md files** in packages being investigated
-  - Report which packages have CLAUDE.md / AGENTS.md and which are missing
-  - List the paths of packages without CLAUDE.md / AGENTS.md
+- **Codebase Explorer (opus)**: Find similar implementations (`file:line`), naming conventions, test patterns, internal packages, CLAUDE.md/AGENTS.md presence
+- **Best Practices (opus)**: Architectural patterns, pitfalls to avoid, industry standards
+- **Standard Library (opus)**: Stdlib solutions, justify external packages if needed
 
-**Agent 2: Best Practices Researcher (opus)**
-- Search online for best practices in this domain
-- Find recommended patterns for this type of feature
-- Look for common pitfalls to avoid
-- Note industry standards and conventions
+### 2. Check CLAUDE.md/AGENTS.md
 
-**Agent 3: Standard Library Researcher (opus)**
-- Identify what can be done with standard libraries
-- Prefer standard library solutions over third-party packages
-- For Go: Check `net/http`, `encoding/json`, `context`, `errors`
-- For TypeScript: Check native APIs, built-in types, standard DOM APIs
-- Only recommend external packages if standard library is insufficient
-
-### 2. Check for Missing CLAUDE.md / AGENTS.md Files
-
-**If the Codebase Explorer found packages without CLAUDE.md / AGENTS.md files:**
-
-Stop the blueprint process and inform the user:
-
-```markdown
-## ⚠️ Missing CLAUDE.md / AGENTS.md Files Detected
-
-The following packages are missing CLAUDE.md / AGENTS.md files, which provide critical context for creating accurate blueprints:
-
-**Missing in:**
-- `[package-path-1]`
-- `[package-path-2]`
-
-**Recommendation:**
-1. Navigate to each package directory
-2. Run `/init` to generate CLAUDE.md / AGENTS.md with project conventions
-3. Return here and run `/sendify:blueprint` again
-
-This ensures the blueprint follows your codebase's actual patterns and conventions.
-
-Would you like to proceed anyway (not recommended), or initialize the missing packages first?
-```
-
-**If the user chooses to proceed anyway:** Continue with a warning that the blueprint may not fully align with existing codebase patterns.
-
-**If all relevant packages have CLAUDE.md / AGENTS.md:** Continue to step 3.
+If missing: Stop and warn user to run `/init` in affected packages. Offer to proceed anyway (not recommended).
 
 ### 3. Clarifying Questions
 
-After research, ask targeted questions:
-
-**Scope:**
-- Is this frontend (TypeScript/React), backend (Go), or full-stack?
-- New feature or modification to existing code?
-- What's the MVP vs nice-to-have?
-
-**Technical:**
-- Any specific performance requirements?
-- Integration with existing services/components?
+Ask about:
+- Scope: Frontend/backend/full-stack, new or modify existing, MVP vs nice-to-have
+- Technical: Performance requirements, service integrations
 
 ### 4. Generate Blueprint
 
-Use the template below to create an actionable blueprint.
+Use template below.
 
 ---
 
@@ -153,32 +96,19 @@ Use the template below to create an actionable blueprint.
 
 **Go:**
 ```go
-// src/services/feature_service.go
-package services
-
-type FeatureService struct {
-    // dependencies
-}
-
+type FeatureService struct { /* deps */ }
 func (s *FeatureService) DoSomething(ctx context.Context, input Input) (*Output, error) {
-    // Implementation using standard library
+    // Implementation
     return nil, nil
 }
 ```
 
 **TypeScript:**
 ```typescript
-// src/hooks/useFeature.ts
 export function useFeature(id: string) {
     const [data, setData] = useState<Feature | null>(null);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<Error | null>(null);
-
-    useEffect(() => {
-        // fetch logic
-    }, [id]);
-
-    return { data, loading, error };
+    useEffect(() => { /* fetch */ }, [id]);
+    return { data };
 }
 ```
 
@@ -216,46 +146,11 @@ export function useFeature(id: string) {
 
 ---
 
-## Output
+## Finalize
 
-After generating the blueprint, end with:
+After user approval:
 
-```markdown
----
-
-## Next Steps
-
-Blueprint saved to: `.blueprint/[feature-name].md`
-
-1. Review this blueprint and provide feedback
-2. Ask questions to clarify any section
-3. Request changes (simplify, add detail, adjust scope)
-4. When ready, run `/sendify:build .blueprint/[feature-name].md` to execute
-```
-
-## Save Blueprint to File
-
-After generating the blueprint and getting user approval:
-
-1. **Create `.blueprint` directory** if it doesn't exist
-2. **Save blueprint** as `.blueprint/[feature-name].md` (kebab-case filename)
-3. **Check gitignore:**
-   - Read `.gitignore` in project root
-   - If `.blueprint` or `.blueprint/` is NOT listed, ask the user:
-     > "The `.blueprint` directory is not in `.gitignore`. Would you like me to add it?"
-   - If user agrees, add `.blueprint/` to `.gitignore`
-
-**Example:**
-```
-.blueprint/
-├── user-authentication.md
-├── export-metrics.md
-└── dark-mode-toggle.md
-```
-
-## Guidelines
-
-- **Research First:** Always run the 3 research agents before planning
-- **Prefer Standard Library:** Only use external packages when necessary
-- **Be Specific:** Include file paths and code examples
-- **Stay Actionable:** Blueprints should be immediately implementable
+1. Create `.blueprint/` directory if needed
+2. Save as `.blueprint/[feature-name].md` (kebab-case)
+3. Check `.gitignore` - offer to add `.blueprint/` if missing
+4. Show: "Blueprint saved to `.blueprint/[feature-name].md`. Run `/sendify:build .blueprint/[feature-name].md` to execute."
