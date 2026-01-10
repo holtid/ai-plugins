@@ -1,0 +1,24 @@
+#!/bin/bash
+set -e
+
+PLUGIN_JSON=".claude-plugin/plugin.json"
+
+# Only bump if plugin.json exists
+[ -f "$PLUGIN_JSON" ] || exit 0
+
+# Read current version
+current=$(grep '"version"' "$PLUGIN_JSON" | sed 's/.*"version": *"\([^"]*\)".*/\1/')
+
+# Parse version parts
+IFS='.' read -r major minor patch <<< "$current"
+
+# Bump patch
+new="$major.$minor.$((patch + 1))"
+
+# Update plugin.json (macOS sed syntax)
+sed -i '' "s/\"version\": *\"$current\"/\"version\": \"$new\"/" "$PLUGIN_JSON"
+
+# Stage the updated file
+git add "$PLUGIN_JSON"
+
+echo "Version bumped: $current -> $new"

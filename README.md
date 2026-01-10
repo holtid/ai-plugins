@@ -22,6 +22,10 @@ If you're developing the plugin, clone the repo and use symlink for live updates
 ```bash
 # Clone the repo
 git clone https://github.com/sendify/sendify-claude-plugin.git ~/sendify/sendify-claude-plugin
+cd ~/sendify/sendify-claude-plugin
+
+# Enable git hooks (auto-bumps version on commit)
+git config core.hooksPath .githooks
 
 # Set up development mode (one-time setup)
 mkdir -p ~/.claude/plugins/local

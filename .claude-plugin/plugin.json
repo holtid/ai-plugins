@@ -1,7 +1,7 @@
 {
   "name": "sendify",
   "description": "Sendify Claude Code Plugin",
-  "version": "1.0.2",
+  "version": "1.0.4",
   "author": {
     "name": "Holger Tidemand"
   },
