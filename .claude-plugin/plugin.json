@@ -1,12 +1,15 @@
 {
   "name": "sendify",
   "description": "Internal Claude Code plugin for Sendify employees - Go and TypeScript development",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": {
     "name": "Holger Tidemand"
   },
   "keywords": ["logistics", "shipping", "go", "typescript", "react"],
-  "agents": ["./agents/code-simplicity-reviewer.md", "./agents/power-of-ten-reviewer.md"],
+  "agents": [
+    "./agents/code-simplicity-reviewer.md",
+    "./agents/power-of-ten-reviewer.md"
+  ],
   "lspServers": "./.lsp.json",
   "mcpServers": "./.mcp.json"
 }
