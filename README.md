@@ -1,151 +1,118 @@
-# Sendify Claude Plugin
+# Sendify AI Plugin
 
-Internal Claude Code plugin for Sendify employees. Provides code review tools, safety-critical coding guidelines, and logistics management integration.
+Internal AI coding assistant plugin for Sendify employees. Supports both Claude Code and OpenCode.
+
+## Quick Start
+
+```bash
+git clone https://github.com/holtid/ai-plugins.git
+cd ai-plugins
+git config core.hooksPath .githooks
+make install
+```
+
+This installs the plugin for both Claude Code and OpenCode.
 
 ## Installation
 
-### Option 1: Marketplace (For Team Members)
-
-In Claude Code, run:
+### Claude Code
 
 ```bash
-/plugin marketplace add holtid/ai-plugins
-/plugin install sendify@ai-plugins
+make claude-install
 ```
 
-The plugin is now available in all your projects.
+Or manually:
+```bash
+claude plugin marketplace add holtid/ai-plugins
+claude plugin install sendify@ai-plugins
+```
 
-### Option 2: Development Mode (For Contributors)
+Enable auto-updates via `/plugin` > Marketplaces > ai-plugins > Enable auto-update.
 
-If you're developing the plugin, clone the repo and use symlink for live updates:
+### OpenCode
 
 ```bash
-# Clone the repo
-git clone https://github.com/holtid/ai-plugins.git ~/ai-plugins
-cd ~/ai-plugins
-
-# Enable git hooks (auto-bumps version on commit)
-git config core.hooksPath .githooks
-
-# Set up development mode (one-time setup)
-mkdir -p ~/.claude/plugins/local
-ln -s ~/ai-plugins ~/.claude/plugins/local/ai-plugins
+make opencode-install
 ```
 
-Then update `~/.claude/plugins/installed_plugins.json`:
-```json
-{
-  "sendify@ai-plugins": [{
-    "installPath": "/Users/YOUR_USERNAME/.claude/plugins/local/ai-plugins",
-    "version": "dev",
-    "isDevelopment": true
-  }]
-}
+### Uninstall
+
+```bash
+make uninstall          # Both
+make claude-uninstall   # Claude Code only
+make opencode-uninstall # OpenCode only
 ```
 
-Replace `YOUR_USERNAME` with your actual username.
+## Setup
 
-Restart Claude Code. Changes in the repo are now immediately reflected.
+After installation, authenticate with Sendify MCP:
 
-### Keeping Up to Date
-
-**Marketplace users (recommended):**
-
-Enable auto-updates so the plugin updates automatically at startup:
-
-1. Run `/plugin` to open the plugin manager
-2. Select **Marketplaces**
-3. Choose `ai-plugins` from the list
-4. Select **Enable auto-update**
-
-When updates are available, you'll see a notification suggesting you restart Claude Code.
-
-Note: Third-party marketplaces have auto-update disabled by default, so you need to enable it manually.
-
-## First-Time Setup
-
-1. Type `/mcp` in Claude Code
-2. Click "Authenticate" next to the Sendify server
+1. Run `/mcp` in your AI assistant
+2. Click "Authenticate" next to Sendify
 3. Log in with your Sendify credentials
 
-## Features
+## Commands
 
-### Code Review
+| Command | Description |
+|---------|-------------|
+| `/review` | Multi-agent code review (bugs, security, simplicity, Power of Ten) |
+| `/blueprint` | Create implementation plans for features |
+| `/build` | Execute blueprints with quality checks |
+| `/commit` | Create git commits |
 
-Multi-agent code review workflow:
+### Review Examples
 
 ```
-/sendify:review                    # Review all changes vs develop branch
-/sendify:review src/api/handler.go # Review specific files
-/sendify:review HEAD~3             # Review specific commits
+/review                     # Review changes vs develop branch
+/review src/api/handler.go  # Review specific files
+/review HEAD~3              # Review last 3 commits
 ```
-
-Uses 5 parallel agents to check for bugs, security issues, simplicity, Power of Ten compliance, and CLAUDE.md / AGENTS.md compliance. Includes validation step to filter false positives.
-
-### Safety Skills
-
-Adapted from NASA/JPL's "Power of Ten" rules for safety-critical code:
-
-- **power-of-ten-go** - Go-specific rules with examples
-- **power-of-ten-ts** - TypeScript-specific rules with examples
-
-Key principles: bounded loops, no recursion, assertion density, check all returns, zero warnings.
 
 ## MCP Servers
 
-### Sendify
+| Server | Description |
+|--------|-------------|
+| **Sendify** | Shipment management, carrier rates, labels, tracking |
+| **Context7** | Library documentation lookup |
+| **Playwright** | Browser automation |
+| **Figma** | Design system integration |
 
-Internal logistics management server:
+### Sendify Admin Tools
 
-- Create, manage, and book shipments
-- Compare carrier rates
-- Print shipping labels and documents
-- Track shipments
+- `get_search_log` - Debug product/carrier availability
+- `get_failed_booking_logs` - Analyze booking failures
 
-**Admin Tools:**
-- `get_search_log` - Debug why a product/carrier isn't available
-- `get_failed_booking_logs` - Analyze why a booking failed
+## Skills
 
-### Context7
+Safety-critical coding guidelines adapted from NASA/JPL's "Power of Ten":
 
-Library documentation lookup. Works out of the box.
+- **power-of-ten-go** - Go-specific rules
+- **power-of-ten-ts** - TypeScript/React rules
 
-### Playwright
+## LSP Servers
 
-Browser automation via `@playwright/mcp`:
+| Server | Languages | Install |
+|--------|-----------|---------|
+| gopls | Go | `go install golang.org/x/tools/gopls@latest` |
+| typescript-language-server | TS/JS | `npm i -g typescript-language-server typescript` |
 
-- Navigate and interact with web pages
-- Click elements, fill forms, extract content
-- Take screenshots and accessibility snapshots
-- No vision models needed
+## Development
 
-### Figma
+For contributors working on the plugin itself:
 
-Design system integration via Figma MCP:
+```bash
+git clone https://github.com/holtid/ai-plugins.git
+cd ai-plugins
+git config core.hooksPath .githooks
+```
 
-- Generate UI code from Figma designs
-- Extract design context and component mappings
-- Create flowcharts and diagrams in FigJam
-- Access design tokens and variables
+The pre-commit hook auto-bumps the plugin version when `.claude-plugin/` files change.
 
 ## Optional: GitLab CLI
 
-The `/sendify:build` command can create GitLab Merge Requests automatically. This requires the GitLab CLI:
+The `/build` command can create GitLab MRs automatically:
 
 ```bash
 brew install glab
 glab auth login
 ```
-
-Follow the prompts to authenticate with your GitLab instance.
-
-## LSP Configuration
-
-Language servers configured in `.lsp.json`:
-
-| Server | Languages | Install |
-|--------|-----------|---------|
-| gopls | Go | `go install golang.org/x/tools/gopls@latest` |
-| typescript-language-server | TypeScript, JavaScript | `npm install -g typescript-language-server typescript` |
-
-
