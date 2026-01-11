@@ -11,38 +11,42 @@ Internal Claude Code plugin for Sendify employees. This plugin provides MCP serv
 - **Go** - Backend services
 - **TypeScript (React)** - Frontend applications
 
+## Structure
+
+- `.claude-plugin/` - Claude Code plugin (commands, agents, skills, MCP/LSP configs)
+- `.opencode/` - OpenCode configuration (mirrors Claude plugin functionality)
+- `Makefile` - Installation commands for both platforms
+
+## Commands
+
+```bash
+make install           # Install for Claude Code and OpenCode
+make claude-install    # Claude Code only
+make opencode-install  # OpenCode only
+```
+
 ## MCP Servers
 
 ### Sendify
 
-Internal logistics management server at `https://app.sendify.se/mcp`. Requires authentication via `/mcp` command.
+Internal logistics server at `https://app.sendify.se/mcp`. Authenticate via `/mcp` command.
 
-**Capabilities:**
-- Create, manage, and book shipments
-- Compare carrier rates
-- Print shipping labels and documents
-- Track shipments
+**Capabilities:** Create/manage shipments, compare rates, print labels, track shipments.
 
-**Admin debugging tools:**
-- `get_search_log` - Debug why a product or carrier isn't available for a specific search
-- `get_failed_booking_logs` - Analyze why a booking failed
+**Admin tools:** `get_search_log`, `get_failed_booking_logs`
 
 ### Context7
 
-Library documentation lookup via `@upstash/context7-mcp`. Works out of the box.
+Library documentation lookup via `@upstash/context7-mcp`.
 
 ### Playwright
 
-Browser automation via `@playwright/mcp`. Enables interaction with web pages through structured accessibility snapshots.
+Browser automation via `@playwright/mcp`.
 
-**Capabilities:**
-- Navigate to URLs and interact with pages
-- Click elements, fill forms, take screenshots
-- Extract page content and accessibility trees
-- No vision models needed - operates on structured data
+### Figma
 
-## LSP Configuration
+Design system integration via `https://mcp.figma.com/mcp`.
 
-Language servers are configured in `.lsp.json`:
-- **gopls** - Go language server (install: `go install golang.org/x/tools/gopls@latest`)
-- **typescript-language-server** - TypeScript/JavaScript (install: `npm install -g typescript-language-server typescript`)
+## Versioning
+
+Pre-commit hook auto-bumps `.claude-plugin/plugin.json` version when files in `.claude-plugin/` change.
