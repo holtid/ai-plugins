@@ -1,0 +1,31 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "mcp": {
+    "context7": {
+      "type": "local",
+      "command": ["npx", "-y", "@upstash/context7-mcp"]
+    },
+    "playwright": {
+      "type": "local",
+      "command": ["npx", "@playwright/mcp@latest"]
+    },
+    "sendify": {
+      "type": "remote",
+      "url": "https://app.sendify.se/mcp"
+    },
+    "figma": {
+      "type": "remote",
+      "url": "https://mcp.figma.com/mcp"
+    }
+  },
+  "lsp": {
+    "gopls": {
+      "command": ["gopls", "serve"],
+      "extensions": [".go", ".mod", ".work", ".tmpl"]
+    },
+    "typescript": {
+      "command": ["typescript-language-server", "--stdio"],
+      "extensions": [".ts", ".tsx", ".js", ".jsx"]
+    }
+  }
+}

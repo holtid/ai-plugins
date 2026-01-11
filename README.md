@@ -9,8 +9,8 @@ Internal Claude Code plugin for Sendify employees. Provides code review tools, s
 In Claude Code, run:
 
 ```bash
-/plugin marketplace add holgersendify/sendify-claude-plugin
-/plugin install sendify@sendify-claude-plugin
+/plugin marketplace add holtid/ai-plugins
+/plugin install sendify@ai-plugins
 ```
 
 The plugin is now available in all your projects.
@@ -21,22 +21,22 @@ If you're developing the plugin, clone the repo and use symlink for live updates
 
 ```bash
 # Clone the repo
-git clone https://github.com/sendify/sendify-claude-plugin.git ~/sendify/sendify-claude-plugin
-cd ~/sendify/sendify-claude-plugin
+git clone https://github.com/holtid/ai-plugins.git ~/ai-plugins
+cd ~/ai-plugins
 
 # Enable git hooks (auto-bumps version on commit)
 git config core.hooksPath .githooks
 
 # Set up development mode (one-time setup)
 mkdir -p ~/.claude/plugins/local
-ln -s ~/sendify/sendify-claude-plugin ~/.claude/plugins/local/sendify-claude-plugin
+ln -s ~/ai-plugins ~/.claude/plugins/local/ai-plugins
 ```
 
 Then update `~/.claude/plugins/installed_plugins.json`:
 ```json
 {
-  "sendify@sendify-claude-plugin": [{
-    "installPath": "/Users/YOUR_USERNAME/.claude/plugins/local/sendify-claude-plugin",
+  "sendify@ai-plugins": [{
+    "installPath": "/Users/YOUR_USERNAME/.claude/plugins/local/ai-plugins",
     "version": "dev",
     "isDevelopment": true
   }]
@@ -55,7 +55,7 @@ Enable auto-updates so the plugin updates automatically at startup:
 
 1. Run `/plugin` to open the plugin manager
 2. Select **Marketplaces**
-3. Choose `sendify-claude-plugin` from the list
+3. Choose `ai-plugins` from the list
 4. Select **Enable auto-update**
 
 When updates are available, you'll see a notification suggesting you restart Claude Code.
