@@ -6,7 +6,7 @@
   "plugins": [
     {
       "name": "sendify",
-      "source": "./",
+      "source": "./.claude-plugin",
       "description": "Internal Sendify plugin with code review tools, safety-critical coding guidelines, and logistics management"
     }
   ]
