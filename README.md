@@ -5,8 +5,8 @@ Personal Claude Code plugin by Holger Tidemand.
 ## Quick Start
 
 ```bash
-git clone https://github.com/holtid/ai-plugins.git
-cd ai-plugins
+git clone https://github.com/holtid/claude-code-plugin.git
+cd claude-code-plugin
 git config core.hooksPath .githooks
 make install
 ```
@@ -19,11 +19,11 @@ make install
 
 Or manually:
 ```bash
-claude plugin marketplace add holtid/ai-plugins
-claude plugin install holgis@ai-plugins
+claude plugin marketplace add holtid/claude-code-plugin
+claude plugin install holgis@claude-code-plugin
 ```
 
-Enable auto-updates via `/plugin` > Marketplaces > ai-plugins > Enable auto-update.
+Enable auto-updates via `/plugin` > Marketplaces > claude-code-plugin > Enable auto-update.
 
 ### Uninstall
 
@@ -83,8 +83,8 @@ Safety-critical coding guidelines adapted from NASA/JPL's "Power of Ten":
 For contributors working on the plugin itself:
 
 ```bash
-git clone https://github.com/holtid/ai-plugins.git
-cd ai-plugins
+git clone https://github.com/holtid/claude-code-plugin.git
+cd claude-code-plugin
 git config core.hooksPath .githooks
 ```
 

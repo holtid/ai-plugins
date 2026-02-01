@@ -1,12 +1,12 @@
 .PHONY: help install uninstall update
 
-MARKETPLACE = holtid/ai-plugins
-MARKETPLACE_NAME = ai-plugins
-PLUGIN = holgis@ai-plugins
+MARKETPLACE = holtid/claude-code-plugin
+MARKETPLACE_NAME = claude-code-plugin
+PLUGIN = holgis@claude-code-plugin
 
 help:
-	@echo "Sendify Plugin Management"
-	@echo "========================="
+	@echo "Holgis Plugin Management"
+	@echo "========================"
 	@echo ""
 	@echo "Commands:"
 	@echo "  make install    - Install plugin from marketplace"
@@ -18,7 +18,7 @@ install:
 	claude plugin marketplace add $(MARKETPLACE)
 	claude plugin install $(PLUGIN)
 	@echo ""
-	@echo "Done! To authenticate with Sendify MCP, run /mcp in Claude Code."
+	@echo "Done! Run /mcp in Claude Code to configure MCP servers."
 
 uninstall:
 	@echo "Uninstalling Claude Code plugin..."
