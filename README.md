@@ -39,13 +39,15 @@ After installation, authenticate with Sendify MCP:
 2. Click "Authenticate" next to Sendify
 3. Log in with your Sendify credentials
 
-## Commands
+## Skills
 
-| Command | Description |
-|---------|-------------|
+| Skill | Description |
+|-------|-------------|
+| `/holgis:commit` | Create git commits with proper formatting |
 | `/holgis:review` | Multi-agent code review (bugs, security, simplicity, Power of Ten) |
-| `/holgis:explore` | Research solutions and patterns before planning |
-| `/holgis:commit` | Create git commits |
+| `/holgis:explore` | Research stdlib solutions, best practices, and codebase patterns |
+| `/holgis:power-of-ten-go` | NASA/JPL Power of Ten rules for Go |
+| `/holgis:power-of-ten-ts` | NASA/JPL Power of Ten rules for TypeScript/React |
 
 ### Review Examples
 
@@ -63,13 +65,6 @@ After installation, authenticate with Sendify MCP:
 | **Context7** | Library documentation lookup |
 | **Playwright** | Browser automation |
 | **Figma** | Design system integration |
-
-## Skills
-
-Safety-critical coding guidelines adapted from NASA/JPL's "Power of Ten":
-
-- `/holgis:power-of-ten-go` - Go-specific rules
-- `/holgis:power-of-ten-ts` - TypeScript/React rules
 
 ## LSP Servers
 
