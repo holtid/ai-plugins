@@ -5,8 +5,8 @@ Personal Claude Code plugin by Holger Tidemand.
 ## Quick Start
 
 ```bash
-git clone https://github.com/holtid/claude-code-plugin.git
-cd claude-code-plugin
+git clone https://github.com/holtid/claude-code-plugins.git
+cd claude-code-plugins
 git config core.hooksPath .githooks
 make install
 ```
@@ -19,11 +19,11 @@ make install
 
 Or manually:
 ```bash
-claude plugin marketplace add holtid/claude-code-plugin
-claude plugin install holgis@claude-code-plugin
+claude plugin marketplace add holtid/claude-code-plugins
+claude plugin install holgis@holgis-plugins
 ```
 
-Enable auto-updates via `/plugin` > Marketplaces > claude-code-plugin > Enable auto-update.
+Enable auto-updates via `/plugin` > Marketplaces > holgis-plugins > Enable auto-update.
 
 ### Uninstall
 
@@ -78,8 +78,8 @@ After installation, authenticate with Sendify MCP:
 For contributors working on the plugin itself:
 
 ```bash
-git clone https://github.com/holtid/claude-code-plugin.git
-cd claude-code-plugin
+git clone https://github.com/holtid/claude-code-plugins.git
+cd claude-code-plugins
 git config core.hooksPath .githooks
 ```
 
