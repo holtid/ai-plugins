@@ -1,6 +1,7 @@
 ---
 name: power-of-ten-ts
 description: NASA/JPL Power of Ten rules adapted for TypeScript/React
+user-invocable: false
 ---
 
 # Power of Ten - TypeScript

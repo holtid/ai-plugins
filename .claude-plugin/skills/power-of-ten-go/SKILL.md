@@ -1,6 +1,7 @@
 ---
 name: power-of-ten-go
 description: NASA/JPL Power of Ten rules adapted for Go
+user-invocable: false
 ---
 
 # Power of Ten - Go

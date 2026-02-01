@@ -2,6 +2,7 @@
 name: sendify:explore
 description: Research stdlib solutions, best practices, and codebase patterns
 argument-hint: "[feature description]"
+disable-model-invocation: true
 ---
 
 # Exploration Research
