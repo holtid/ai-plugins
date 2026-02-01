@@ -1,15 +1,13 @@
 {
   "name": "sendify",
   "description": "Sendify Claude Code Plugin",
-  "version": "1.0.11",
+  "version": "1.0.12",
   "author": {
     "name": "Holger Tidemand"
   },
   "keywords": ["logistics", "shipping", "go", "typescript", "react"],
-  "commands": [
-    "./.claude-plugin/commands/commit.md"
-  ],
   "skills": [
+    "./.claude-plugin/skills/commit/SKILL.md",
     "./.claude-plugin/skills/review/SKILL.md",
     "./.claude-plugin/skills/explore/SKILL.md",
     "./.claude-plugin/skills/power-of-ten-ts/SKILL.md",

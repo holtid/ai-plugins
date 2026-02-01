@@ -1,5 +1,5 @@
 ---
-allowed-tools: Bash(git add:*), Bash(git status:*), Bash(git commit:*)
+name: commit
 description: Create a git commit
 ---
 
@@ -12,6 +12,6 @@ description: Create a git commit
 
 ## Your task
 
-Based on the above changes, create a single git commit. 
+Based on the above changes, create a single git commit.
 Follow the commit style that is already in use for this repo.
 Dont sign commit messages with claude code!
